@@ -1,39 +1,30 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "shipments")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Shipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "vehicle_id")
+    @ManyToOne
     private Vehicle vehicle;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "pickup_location_id")
+    @ManyToOne
     private Location pickupLocation;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "drop_location_id")
+    @ManyToOne
     private Location dropLocation;
 
-    @NotNull
-    @Positive
     private Double weightKg;
 
-    @NotNull
     private LocalDate scheduledDate;
+
+    public Shipment() {}
+
+    // getters and setters
 }

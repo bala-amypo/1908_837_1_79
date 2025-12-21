@@ -1,35 +1,34 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
 
 @Entity
-@Table(name = "vehicles")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "vehicles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "vehicleNumber")
+})
 public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private User user;
 
-    @NotBlank
-    @Size(min = 2, max = 50)
-    @Column(nullable = false, unique = true)
     private String vehicleNumber;
 
-    @NotNull
-    @Positive
     private Double capacityKg;
 
-    @NotNull
-    @Positive
     private Double fuelEfficiency;
+
+    public Vehicle() {}
+
+    public Vehicle(User user, String vehicleNumber, Double capacityKg, Double fuelEfficiency) {
+        this.user = user;
+        this.vehicleNumber = vehicleNumber;
+        this.capacityKg = capacityKg;
+        this.fuelEfficiency = fuelEfficiency;
+    }
+
+    // getters and setters
 }
