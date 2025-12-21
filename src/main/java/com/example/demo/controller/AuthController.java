@@ -1,10 +1,6 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.demo.dto.AuthRequest;
@@ -19,13 +15,13 @@ public class AuthController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil =
-            new JwtUtil("mysecretkey", 24 * 60 * 60 * 1000);
+    private final JwtUtil jwtUtil;
 
     public AuthController(UserService userService,
                           PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = new JwtUtil("mysecretkey", 86400000);
     }
 
     @PostMapping("/register")
@@ -38,7 +34,9 @@ public class AuthController {
 
         User user = userService.findByEmail(request.getEmail());
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
