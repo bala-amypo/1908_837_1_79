@@ -1,13 +1,11 @@
 package com.example.demo.controller;
 
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.entity.RouteOptimizationResult;
 import com.example.demo.service.RouteOptimizationService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/route-optimizations")
+@RequestMapping("/optimize")
 public class RouteOptimizationController {
 
     private final RouteOptimizationService service;
@@ -16,29 +14,13 @@ public class RouteOptimizationController {
         this.service = service;
     }
 
-    @PostMapping
-    public RouteOptimizationResult create(@RequestBody RouteOptimizationResult result) {
-        return service.save(result);
+    @PostMapping("/{shipmentId}")
+    public RouteOptimizationResult optimize(@PathVariable Long shipmentId) {
+        return service.optimizeRoute(shipmentId);
     }
 
-    @GetMapping
-    public List<RouteOptimizationResult> getAll() {
-        return service.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public RouteOptimizationResult get(@PathVariable Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public RouteOptimizationResult update(@PathVariable Long id,
-                                          @RequestBody RouteOptimizationResult result) {
-        return service.update(id, result);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    @GetMapping("/result/{id}")
+    public RouteOptimizationResult getResult(@PathVariable Long id) {
+        return service.getResult(id);
     }
 }
