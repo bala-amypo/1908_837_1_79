@@ -40,12 +40,26 @@ public class Shipment {
     public Double getWeightKg() { 
         return weightKg; 
     }
-    public LocalDate getScheduledDate() { return scheduledDate; }
+    public LocalDate getScheduledDate() { 
+        return scheduledDate;
+    }
 
-    public void setId(Long id) { this.id = id; }
-    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
-    public void setPickupLocation(Location pickupLocation) { this.pickupLocation = pickupLocation; }
-    public void setDropLocation(Location dropLocation) { this.dropLocation = dropLocation; }
-    public void setWeightKg(Double weightKg) { this.weightKg = weightKg; }
-    public void setScheduledDate(LocalDate scheduledDate) { this.scheduledDate = scheduledDate; }
+    public void setId(Long id) { 
+        this.id = id; 
+    }
+    public void setVehicle(Vehicle vehicle) { 
+        this.vehicle = vehicle; 
+    }
+    public void setPickupLocation(Location pickupLocation) { 
+        this.pickupLocation = pickupLocation; 
+    }
+    public void setDropLocation(Location dropLocation) { 
+        this.dropLocation = dropLocation; 
+    }
+    public void setWeightKg(Double weightKg) { 
+        this.weightKg = weightKg; 
+    }
+    public void setScheduledDate(LocalDate scheduledDate) { 
+        this.scheduledDate = scheduledDate; 
+    }
 }

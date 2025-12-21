@@ -19,7 +19,9 @@ public class Vehicle {
 
     public Vehicle() {}
 
-    public Long getId() { return id; }
+    public Long getId() { 
+        return id; 
+    }
     public String getVehicleNumber() { return vehicleNumber; }
     public Double getCapacityKg() { return capacityKg; }
     public Double getFuelEfficiency() { return fuelEfficiency; }
