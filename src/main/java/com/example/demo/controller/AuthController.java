@@ -1,12 +1,9 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
 import com.example.demo.entity.User;
-import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -14,43 +11,27 @@ import com.example.demo.service.UserService;
 public class AuthController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
-    public AuthController(UserService userService,
-                          PasswordEncoder passwordEncoder) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = new JwtUtil("mysecretkey", 86400000);
     }
 
+    // REGISTER
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
+    // LOGIN (plain check)
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
+    public String login(@RequestBody AuthRequest request) {
 
         User user = userService.findByEmail(request.getEmail());
 
-        if (!passwordEncoder.matches(
-                request.getPassword(),
-                user.getPassword())) {
+        if (!user.getPassword().equals(request.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        String token = jwtUtil.generateToken(
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
-
-        return new AuthResponse(
-                token,
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
+        return "Login successful";
     }
 }
