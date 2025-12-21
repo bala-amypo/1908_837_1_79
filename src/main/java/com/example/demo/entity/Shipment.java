@@ -31,9 +31,15 @@ public class Shipment {
     public Vehicle getVehicle() { 
         return vehicle; 
     }
-    public Location getPickupLocation() { return pickupLocation; }
-    public Location getDropLocation() { return dropLocation; }
-    public Double getWeightKg() { return weightKg; }
+    public Location getPickupLocation() { 
+        return pickupLocation; 
+    }
+    public Location getDropLocation() { 
+        return dropLocation; 
+    }
+    public Double getWeightKg() { 
+        return weightKg; 
+    }
     public LocalDate getScheduledDate() { return scheduledDate; }
 
     public void setId(Long id) { this.id = id; }
