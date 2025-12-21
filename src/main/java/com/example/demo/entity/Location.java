@@ -1,4 +1,13 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 @Entity
+@Table(name = "locations")
 public class Location {
 
     @Id
@@ -11,11 +20,11 @@ public class Location {
 
     public Location() {}
 
-    public Long getId() { return id; }
+    public Location(String name, Double latitude, Double longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
-    public Double getLatitude() { return latitude; }
-    public Double getLongitude() { return longitude; }
-
-    public void setLatitude(Double latitude) { this.latitude = latitude; }
-    public void setLongitude(Double longitude) { this.longitude = longitude; }
+    // getters and setters
 }
