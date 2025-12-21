@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.entity.Shipment;
 import com.example.demo.service.ShipmentService;
 
@@ -14,14 +15,16 @@ public class ShipmentController {
         this.shipmentService = shipmentService;
     }
 
+    // CREATE SHIPMENT
     @PostMapping("/{vehicleId}")
-    public Shipment create(@PathVariable Long vehicleId,
-                           @RequestBody Shipment shipment) {
+    public Shipment createShipment(@PathVariable Long vehicleId,
+                                   @RequestBody Shipment shipment) {
         return shipmentService.createShipment(vehicleId, shipment);
     }
 
-    @GetMapping("/{id}")
-    public Shipment get(@PathVariable Long id) {
-        return shipmentService.getShipment(id);
+    // GET SHIPMENT BY ID
+    @GetMapping("/{shipmentId}")
+    public Shipment getShipment(@PathVariable Long shipmentId) {
+        return shipmentService.getShipment(shipmentId);
     }
 }

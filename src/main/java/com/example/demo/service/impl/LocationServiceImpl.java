@@ -21,7 +21,7 @@ public class LocationServiceImpl implements LocationService {
     public Location createLocation(Location location) {
 
         if (location.getLatitude() > 90 || location.getLatitude() < -90) {
-            throw new IllegalArgumentException("Invalid latitude");
+            throw new IllegalArgumentException("latitude is invalid");
         }
 
         return locationRepository.save(location);

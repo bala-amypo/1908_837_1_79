@@ -46,11 +46,11 @@ public class ShipmentServiceImpl implements ShipmentService {
                         new ResourceNotFoundException("Location not found"));
 
         if (shipment.getWeightKg() > vehicle.getCapacityKg()) {
-            throw new IllegalArgumentException("Weight exceeds capacity");
+            throw new IllegalArgumentException("weight exceeds capacity");
         }
 
         if (shipment.getScheduledDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Scheduled date is in the past");
+            throw new IllegalArgumentException("scheduled date is in the past");
         }
 
         shipment.setVehicle(vehicle);
