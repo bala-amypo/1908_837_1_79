@@ -33,8 +33,6 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
 
         Location pickup = shipment.getPickupLocation();
         Location drop = shipment.getDropLocation();
-
-        // Dummy distance calculation (non-zero)
         double distance = Math.hypot(
                 pickup.getLatitude() - drop.getLatitude(),
                 pickup.getLongitude() - drop.getLongitude()
