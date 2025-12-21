@@ -16,13 +16,10 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // REGISTER
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.registerUser(user);
     }
-
-    // LOGIN (plain check)
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest request) {
 

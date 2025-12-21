@@ -15,13 +15,10 @@ public class RouteOptimizationController {
         this.routeOptimizationService = routeOptimizationService;
     }
 
-    // OPTIMIZE ROUTE
     @PostMapping("/{shipmentId}")
     public RouteOptimizationResult optimizeRoute(@PathVariable Long shipmentId) {
         return routeOptimizationService.optimizeRoute(shipmentId);
     }
-
-    // GET OPTIMIZATION RESULT
     @GetMapping("/result/{resultId}")
     public RouteOptimizationResult getResult(@PathVariable Long resultId) {
         return routeOptimizationService.getResult(resultId);

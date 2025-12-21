@@ -16,7 +16,8 @@ public class Location {
 
     public Location() {}
 
-    public Long getId() { return id; }
+    public Long getId() { 
+        return id; }
     public String getName() { return name; }
     public Double getLatitude() { return latitude; }
     public Double getLongitude() { return longitude; }

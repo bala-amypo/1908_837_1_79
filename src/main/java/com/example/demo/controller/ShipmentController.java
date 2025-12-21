@@ -15,14 +15,12 @@ public class ShipmentController {
         this.shipmentService = shipmentService;
     }
 
-    // CREATE SHIPMENT
     @PostMapping("/{vehicleId}")
     public Shipment createShipment(@PathVariable Long vehicleId,
                                    @RequestBody Shipment shipment) {
         return shipmentService.createShipment(vehicleId, shipment);
     }
 
-    // GET SHIPMENT BY ID
     @GetMapping("/{shipmentId}")
     public Shipment getShipment(@PathVariable Long shipmentId) {
         return shipmentService.getShipment(shipmentId);
