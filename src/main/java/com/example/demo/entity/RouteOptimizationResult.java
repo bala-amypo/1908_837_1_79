@@ -40,5 +40,4 @@ public class RouteOptimizationResult {
         this.generatedAt = generatedAt;
     }
 
-    // getters and setters
 }

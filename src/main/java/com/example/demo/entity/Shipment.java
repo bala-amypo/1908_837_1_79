@@ -25,8 +25,12 @@ public class Shipment {
 
     public Shipment() {}
 
-    public Long getId() { return id; }
-    public Vehicle getVehicle() { return vehicle; }
+    public Long getId() { 
+        return id; 
+    }
+    public Vehicle getVehicle() { 
+        return vehicle; 
+    }
     public Location getPickupLocation() { return pickupLocation; }
     public Location getDropLocation() { return dropLocation; }
     public Double getWeightKg() { return weightKg; }
