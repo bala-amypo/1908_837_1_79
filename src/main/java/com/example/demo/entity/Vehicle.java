@@ -5,10 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(
-    name = "vehicles",
-    uniqueConstraints = @UniqueConstraint(columnNames = "vehicleNumber")
-)
+@Table(name = "vehicles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
