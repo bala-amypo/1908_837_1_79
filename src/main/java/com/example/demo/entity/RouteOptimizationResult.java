@@ -1,10 +1,4 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "route_optimization_results")
 public class RouteOptimizationResult {
 
     @Id
@@ -20,5 +14,8 @@ public class RouteOptimizationResult {
 
     public RouteOptimizationResult() {}
 
-    // getters and setters
+    public void setShipment(Shipment shipment) { this.shipment = shipment; }
+    public void setOptimizedDistanceKm(Double d) { this.optimizedDistanceKm = d; }
+    public void setEstimatedFuelUsageL(Double f) { this.estimatedFuelUsageL = f; }
+    public void setGeneratedAt(LocalDateTime t) { this.generatedAt = t; }
 }

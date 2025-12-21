@@ -1,9 +1,4 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-
 @Entity
-@Table(name = "locations")
 public class Location {
 
     @Id
@@ -16,11 +11,11 @@ public class Location {
 
     public Location() {}
 
-    public Location(String name, Double latitude, Double longitude) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    public Long getId() { return id; }
 
-    // getters and setters
+    public Double getLatitude() { return latitude; }
+    public Double getLongitude() { return longitude; }
+
+    public void setLatitude(Double latitude) { this.latitude = latitude; }
+    public void setLongitude(Double longitude) { this.longitude = longitude; }
 }

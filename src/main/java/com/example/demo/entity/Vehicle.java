@@ -1,11 +1,4 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-
 @Entity
-@Table(name = "vehicles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "vehicleNumber")
-})
 public class Vehicle {
 
     @Id
@@ -16,19 +9,13 @@ public class Vehicle {
     private User user;
 
     private String vehicleNumber;
-
     private Double capacityKg;
-
     private Double fuelEfficiency;
 
     public Vehicle() {}
 
-    public Vehicle(User user, String vehicleNumber, Double capacityKg, Double fuelEfficiency) {
-        this.user = user;
-        this.vehicleNumber = vehicleNumber;
-        this.capacityKg = capacityKg;
-        this.fuelEfficiency = fuelEfficiency;
-    }
+    public Double getCapacityKg() { return capacityKg; }
+    public Double getFuelEfficiency() { return fuelEfficiency; }
 
-    // getters and setters
+    public void setUser(User user) { this.user = user; }
 }

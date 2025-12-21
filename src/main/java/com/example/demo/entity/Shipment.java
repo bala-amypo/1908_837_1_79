@@ -1,10 +1,4 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import java.time.LocalDate;
-
 @Entity
-@Table(name = "shipments")
 public class Shipment {
 
     @Id
@@ -21,10 +15,16 @@ public class Shipment {
     private Location dropLocation;
 
     private Double weightKg;
-
     private LocalDate scheduledDate;
 
     public Shipment() {}
 
-    // getters and setters
+    public Location getPickupLocation() { return pickupLocation; }
+    public Location getDropLocation() { return dropLocation; }
+    public Double getWeightKg() { return weightKg; }
+    public LocalDate getScheduledDate() { return scheduledDate; }
+
+    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
+    public void setPickupLocation(Location pickupLocation) { this.pickupLocation = pickupLocation; }
+    public void setDropLocation(Location dropLocation) { this.dropLocation = dropLocation; }
 }
