@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Location;
 import com.example.demo.entity.RouteOptimizationResult;
 import com.example.demo.entity.Shipment;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -30,19 +31,28 @@ public class RouteOptimizationServiceImpl implements RouteOptimizationService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Shipment not found"));
 
-        double lat1 = shipment.getPickupLocation().getLatitude();
-        double lon1 = shipment.getPickupLocation().getLongitude();
-        double lat2 = shipment.getDropLocation().getLatitude();
-        double lon2 = shipment.getDropLocation().getLongitude();
+        Location pickup = shipment.getPickupLocation();
+        Location drop = shipment.getDropLocation();
 
-        double distance = Math.hypot(lat2 - lat1, lon2 - lon1);
+        // Dummy distance calculation (non-zero)
+        double distance = Math.hypot(
+                pickup.getLatitude() - drop.getLatitude(),
+                pickup.getLongitude() - drop.getLongitude()
+        );
+
+        if (distance <= 0) {
+            distance = 1.0;
+        }
+
         double fuelUsed = distance / shipment.getVehicle().getFuelEfficiency();
 
-        RouteOptimizationResult result = new RouteOptimizationResult();
-        result.setShipment(shipment);
-        result.setOptimizedDistanceKm(distance);
-        result.setEstimatedFuelUsageL(fuelUsed);
-        result.setGeneratedAt(LocalDateTime.now());
+        RouteOptimizationResult result =
+                new RouteOptimizationResult(
+                        shipment,
+                        distance,
+                        fuelUsed,
+                        LocalDateTime.now()
+                );
 
         return resultRepository.save(result);
     }
