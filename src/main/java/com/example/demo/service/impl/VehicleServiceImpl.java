@@ -6,9 +6,11 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ THIS WAS MISSING
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
