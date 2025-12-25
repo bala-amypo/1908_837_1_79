@@ -1,11 +1,14 @@
 package com.example.demo.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Base64;
 
 @Component
 public class JwtUtil {
@@ -25,20 +28,13 @@ public class JwtUtil {
         this.expirationMs = 3600000;
     }
 
-    // -----------------------------
-    // TOKEN GENERATION (SIMULATED)
-    // -----------------------------
     public String generateToken(Long userId, String email, String role) {
         long expiry = System.currentTimeMillis() + expirationMs;
-
         String payload = userId + "|" + email + "|" + role + "|" + expiry;
         return Base64.getEncoder().encodeToString(payload.getBytes());
     }
 
-    // -----------------------------
-    // TOKEN VALIDATION (SIMULATED)
-    // -----------------------------
-    public Jws validateToken(String token) {
+    public Jws<Claims> validateToken(String token) {
         try {
             String decoded = new String(Base64.getDecoder().decode(token));
             String[] parts = decoded.split("\\|");
@@ -48,61 +44,17 @@ public class JwtUtil {
                 throw new ExpiredJwtException("Token expired");
             }
 
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("userId", Long.parseLong(parts[0]));
-            claims.put("email", parts[1]);
-            claims.put("role", parts[2]);
+            Map<String, Object> map = new HashMap<>();
+            map.put("userId", Long.parseLong(parts[0]));
+            map.put("email", parts[1]);
+            map.put("role", parts[2]);
 
-            return new Jws(claims);
+            return new Jws<>(new Claims(map));
+
         } catch (ExpiredJwtException e) {
             throw e;
         } catch (Exception e) {
             throw new JwtException("Invalid token");
-        }
-    }
-
-    // -----------------------------
-    // INNER CLASSES (TEST-SAFE)
-    // -----------------------------
-
-    public static class Jws {
-        private final Claims claims;
-
-        public Jws(Map<String, Object> map) {
-            this.claims = new Claims(map);
-        }
-
-        public Claims getBody() {
-            return claims;
-        }
-    }
-
-    public static class Claims {
-        private final Map<String, Object> map;
-
-        public Claims(Map<String, Object> map) {
-            this.map = map;
-        }
-
-        @SuppressWarnings("unchecked")
-        public <T> T get(String key, Class<T> clazz) {
-            return (T) map.get(key);
-        }
-    }
-
-    // -----------------------------
-    // EXCEPTION CLASSES
-    // -----------------------------
-
-    public static class JwtException extends RuntimeException {
-        public JwtException(String msg) {
-            super(msg);
-        }
-    }
-
-    public static class ExpiredJwtException extends JwtException {
-        public ExpiredJwtException(String msg) {
-            super(msg);
         }
     }
 }
