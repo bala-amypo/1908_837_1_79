@@ -19,6 +19,8 @@ public class User {
 
     private String role;
 
+    // -------- Constructors --------
+
     public User() {}
 
     public User(Long id, String name, String email, String password, String role) {
@@ -28,6 +30,8 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
+    // -------- Getters & Setters --------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -43,4 +47,47 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    // -------- MANUAL BUILDER (REQUIRED BY TESTS) --------
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String name;
+        private String email;
+        private String password;
+        private String role;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder role(String role) {
+            this.role = role;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, name, email, password, role);
+        }
+    }
 }
