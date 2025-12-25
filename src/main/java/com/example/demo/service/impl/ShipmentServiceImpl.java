@@ -8,11 +8,9 @@ import com.example.demo.repository.LocationRepository;
 import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.ShipmentService;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-@Service
 public class ShipmentServiceImpl implements ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
@@ -34,25 +32,23 @@ public class ShipmentServiceImpl implements ShipmentService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Vehicle not found"));
 
-        if (shipment.getWeightKg() == null ||
-            shipment.getWeightKg() > vehicle.getCapacityKg()) {
+        Location pickup = locationRepository.findById(
+                shipment.getPickupLocation().getId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Pickup location not found"));
+
+        Location drop = locationRepository.findById(
+                shipment.getDropLocation().getId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Drop location not found"));
+
+        if (shipment.getWeightKg() > vehicle.getCapacityKg()) {
             throw new IllegalArgumentException("Weight exceeds vehicle capacity");
         }
 
-        if (shipment.getScheduledDate() == null ||
-            shipment.getScheduledDate().isBefore(LocalDate.now())) {
+        if (shipment.getScheduledDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Scheduled date is in the past");
         }
-
-        Location pickup = locationRepository.findById(
-                shipment.getPickupLocation().getId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Pickup location not found"));
-
-        Location drop = locationRepository.findById(
-                shipment.getDropLocation().getId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Drop location not found"));
 
         shipment.setVehicle(vehicle);
         shipment.setPickupLocation(pickup);
@@ -61,7 +57,6 @@ public class ShipmentServiceImpl implements ShipmentService {
         return shipmentRepository.save(shipment);
     }
 
-    // ✅ THIS METHOD WAS MISSING
     @Override
     public Shipment getShipment(Long id) {
         return shipmentRepository.findById(id)

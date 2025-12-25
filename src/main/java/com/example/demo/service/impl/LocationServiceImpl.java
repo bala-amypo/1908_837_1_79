@@ -3,11 +3,9 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.Location;
 import com.example.demo.repository.LocationRepository;
 import com.example.demo.service.LocationService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // ✅ THIS WAS MISSING
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
@@ -18,17 +16,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location createLocation(Location location) {
-
-        if (location.getLatitude() == null ||
-            location.getLatitude() < -90 || location.getLatitude() > 90) {
+        if (location.getLatitude() < -90 || location.getLatitude() > 90) {
             throw new IllegalArgumentException("Invalid latitude");
         }
-
-        if (location.getLongitude() == null ||
-            location.getLongitude() < -180 || location.getLongitude() > 180) {
+        if (location.getLongitude() < -180 || location.getLongitude() > 180) {
             throw new IllegalArgumentException("Invalid longitude");
         }
-
         return locationRepository.save(location);
     }
 
