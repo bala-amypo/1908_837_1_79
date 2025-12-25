@@ -20,14 +20,14 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> register(@RequestBody User user) {
         return new ResponseEntity<>(
-                userService.registerUser(user),
+                userService.register(user), // ✅ FIXED
                 HttpStatus.CREATED
         );
     }
 
     @GetMapping("/{id}")
     public User getById(@PathVariable Long id) {
-        return userService.findById(id);
+        return userService.findById(id); // ✅ FIXED
     }
 
     @GetMapping("/email/{email}")

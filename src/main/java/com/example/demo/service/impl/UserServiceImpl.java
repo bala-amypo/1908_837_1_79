@@ -13,14 +13,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    // ✅ MUST match test constructor
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ✅ REQUIRED BY TESTS
     @Override
     public User register(User user) {
         if (user.getPassword() == null) {
@@ -36,7 +34,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    // ✅ REQUIRED BY TESTS
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
@@ -44,7 +41,7 @@ public class UserServiceImpl implements UserService {
                         new ResourceNotFoundException("User not found"));
     }
 
-    // Used in tests via casting
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() ->

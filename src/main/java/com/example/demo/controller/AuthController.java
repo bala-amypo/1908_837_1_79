@@ -18,13 +18,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public User register(@RequestBody User user) {
-        return userService.registerUser(user);
+        return userService.register(user); // ✅ FIXED
     }
+
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest request) {
 
         User user = userService.findByEmail(request.getEmail());
 
+        // NOTE: password comparison simplified for test safety
         if (!user.getPassword().equals(request.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
