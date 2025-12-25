@@ -1,9 +1,5 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.User;
 import com.example.demo.entity.Vehicle;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -11,7 +7,8 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
 
-@Service
+import java.util.List;
+
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
@@ -26,13 +23,13 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Vehicle addVehicle(Long userId, Vehicle vehicle) {
 
+        if (vehicle.getCapacityKg() == null || vehicle.getCapacityKg() <= 0) {
+            throw new IllegalArgumentException("Capacity must be greater than 0");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found"));
-
-        if (vehicle.getCapacityKg() <= 0) {
-            throw new IllegalArgumentException("Capacity must be greater than zero");
-        }
 
         vehicle.setUser(user);
         return vehicleRepository.save(vehicle);
