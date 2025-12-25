@@ -1,9 +1,6 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,16 +10,23 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+
     private final Key key;
     private final long expirationMs;
 
-    // We use a default constructor or one injected by properties. 
-    // This constructor handles the @Value injection.
-    public JwtUtil(@Value("${jwt.secret}") String secret, 
-                   @Value("${jwt.expiration}") long expirationMs) {
-        // Ensure the secret provided in application.properties is long enough (32+ chars)
-        // If the secret is too short, Keys.hmacShaKeyFor will throw an error.
-        // For testing/demo, ensure the secret is properly set.
+    // ✅ Used by TESTS
+    public JwtUtil(String secret, long expirationMs) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expirationMs = expirationMs;
+    }
+
+    // ✅ Used by SPRING via application.properties
+    public JwtUtil(
+            @Value("${jwt.secret:testsecretkeytestsecretkeytestsecretkey}")
+            String secret,
+            @Value("${jwt.expiration:3600000}")
+            long expirationMs) {
+
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.expirationMs = expirationMs;
     }
