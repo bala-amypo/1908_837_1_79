@@ -1,12 +1,9 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
-import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,32 +21,33 @@ public class JwtUtil {
 
     // Used by Spring
     public JwtUtil() {
-        this.secret = "default-test-secret-key-which-is-long";
+        this.secret = "testsecretkeytestsecretkeytestsecretkey";
         this.expirationMs = 3600000;
     }
 
     public String generateToken(Long userId, String email, String role) {
         long expiry = System.currentTimeMillis() + expirationMs;
-        String payload = userId + "|" + email + "|" + role + "|" + expiry;
-        return Base64.getEncoder().encodeToString(payload.getBytes());
+        return userId + "|" + email + "|" + role + "|" + expiry;
     }
 
     public Jws<Claims> validateToken(String token) {
         try {
-            String decoded = new String(Base64.getDecoder().decode(token));
-            String[] parts = decoded.split("\\|");
-
+            String[] parts = token.split("\\|");
             long expiry = Long.parseLong(parts[3]);
+
             if (System.currentTimeMillis() > expiry) {
-                throw new ExpiredJwtException("Token expired");
+                throw new ExpiredJwtException(null, null, "Token expired");
             }
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("userId", Long.parseLong(parts[0]));
-            map.put("email", parts[1]);
-            map.put("role", parts[2]);
+            Map<String, Object> claimsMap = new HashMap<>();
+            claimsMap.put("userId", Long.parseLong(parts[0]));
+            claimsMap.put("email", parts[1]);
+            claimsMap.put("role", parts[2]);
 
-            return new Jws<>(new Claims(map));
+            Claims claims = Jwts.claims(claimsMap);
+            return Jwts.parserBuilder().build().parseClaimsJws(
+                    Jwts.builder().setClaims(claims).compact()
+            );
 
         } catch (ExpiredJwtException e) {
             throw e;
