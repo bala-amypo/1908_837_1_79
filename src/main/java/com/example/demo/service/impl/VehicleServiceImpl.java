@@ -6,9 +6,11 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
@@ -22,6 +24,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle addVehicle(Long userId, Vehicle vehicle) {
+
         if (vehicle.getCapacityKg() == null || vehicle.getCapacityKg() <= 0) {
             throw new IllegalArgumentException("Capacity must be positive");
         }
