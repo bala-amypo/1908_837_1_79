@@ -1,9 +1,5 @@
 package com.example.demo.service.impl;
 
-import java.time.LocalDate;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.Location;
 import com.example.demo.entity.Shipment;
 import com.example.demo.entity.Vehicle;
@@ -13,7 +9,8 @@ import com.example.demo.repository.ShipmentRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.ShipmentService;
 
-@Service
+import java.time.LocalDate;
+
 public class ShipmentServiceImpl implements ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
@@ -35,23 +32,25 @@ public class ShipmentServiceImpl implements ShipmentService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Vehicle not found"));
 
+        if (shipment.getWeightKg() == null ||
+            shipment.getWeightKg() > vehicle.getCapacityKg()) {
+            throw new IllegalArgumentException("Weight exceeds vehicle capacity");
+        }
+
+        if (shipment.getScheduledDate() == null ||
+            shipment.getScheduledDate().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Scheduled date is in the past");
+        }
+
         Location pickup = locationRepository.findById(
-                shipment.getPickupLocation().getId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Location not found"));
+                shipment.getPickupLocation().getId()
+        ).orElseThrow(() ->
+                new ResourceNotFoundException("Pickup location not found"));
 
         Location drop = locationRepository.findById(
-                shipment.getDropLocation().getId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Location not found"));
-
-        if (shipment.getWeightKg() > vehicle.getCapacityKg()) {
-            throw new IllegalArgumentException("weight exceeds capacity");
-        }
-
-        if (shipment.getScheduledDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("scheduled date is in the past");
-        }
+                shipment.getDropLocation().getId()
+        ).orElseThrow(() ->
+                new ResourceNotFoundException("Drop location not found"));
 
         shipment.setVehicle(vehicle);
         shipment.setPickupLocation(pickup);
@@ -61,8 +60,8 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public Shipment getShipment(Long shipmentId) {
-        return shipmentRepository.findById(shipmentId)
+    public Shipment getShipment(Long id) {
+        return shipmentRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Shipment not found"));
     }
