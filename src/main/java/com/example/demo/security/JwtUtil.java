@@ -13,7 +13,6 @@ public class JwtUtil {
     private final long expirationMillis;
 
     public JwtUtil(String secret, long expirationMillis) {
-        // Convert string into a SECURE key (>=256 bits)
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expirationMillis = expirationMillis;
     }
