@@ -50,7 +50,7 @@ public class Location {
         }
     }
 
-    // ---------- Getters & Setters ----------
+
     public Long getId() {
         return id;
     }
